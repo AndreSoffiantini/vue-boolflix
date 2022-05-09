@@ -4,18 +4,20 @@
 
         <h1>BOOLFIX</h1>
 
-        <form action="">
-            <input type="search" >
-        </form>
+        <SearchBox/>
 
     </header>
 
 </template>
 
 <script>
-export default {
-    name: 'HeaderComponent'
+import SearchBox from "@/components/SearchboxComponent.vue"
 
+export default {
+    name: 'HeaderComponent',
+    components: {
+        SearchBox
+    }
 }
 </script>
 
