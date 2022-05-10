@@ -36,9 +36,24 @@
         <ul>
 
           <li><h2>FILMS</h2></li>
-          <li v-for="film in films" :key="film.id">{{film.title}} / {{film.original_title}} / {{film.vote_average}} / <lang-flag :iso="film.original_language" /> </li>
+          <li v-for="film in films" :key="film.id"> 
+            <img :src="film.cover_path" :alt="film.original_title"> 
+            {{film.title}} / 
+            {{film.original_title}} /
+            <font-awesome-icon v-for="index in film.vote_stars" :key="'film_solid'+index" icon="fa-solid fa-star" />
+            <font-awesome-icon v-for="index in 5-film.vote_stars" :key="'film_regular'+index" icon="fa-regular fa-star" /> /
+            <lang-flag :iso="film.original_language" /> 
+          </li>
+
           <li><h2>TV SERIES</h2></li>
-          <li v-for="serie in series" :key="serie.id">{{serie.name}} / {{serie.original_name}} / {{serie.vote_average}} / <lang-flag :iso="serie.original_language" /> </li>
+          <li v-for="serie in series" :key="serie.id"> 
+            <img :src="serie.cover_path" :alt="serie.original_title"> 
+            {{serie.cover_path}} {{serie.name}} / 
+            {{serie.original_name}} / 
+            <font-awesome-icon v-for="index in serie.vote_stars" :key="'serie_solid'+index" icon="fa-solid fa-star" />
+            <font-awesome-icon v-for="index in 5-serie.vote_stars" :key="'serie_regular'+index" icon="fa-regular fa-star" /> /
+            <lang-flag :iso="serie.original_language" /> 
+          </li>
 
         </ul>
 
@@ -64,7 +79,7 @@ export default {
       films: null,
       series: null,
       searchText: null,
-      error: null
+      errorsArray: []
     }   
   },
   methods: {
@@ -73,10 +88,10 @@ export default {
 
         if(this.searchText) {
 
-          let films_api_url = "https://api.themoviedb.org/3/search/movie?api_key=041d7f18aab0e82c43022e918273c2dd&query=" + this.searchText;
-          let series_api_url = "https://api.themoviedb.org/3/search/tv?api_key=041d7f18aab0e82c43022e918273c2dd&query=" + this.searchText;
+          const films_api_url = "https://api.themoviedb.org/3/search/movie?api_key=041d7f18aab0e82c43022e918273c2dd&query=" + this.searchText;
+          const series_api_url = "https://api.themoviedb.org/3/search/tv?api_key=041d7f18aab0e82c43022e918273c2dd&query=" + this.searchText;
 
-          this.callApis(films_api_url, series_api_url);
+          this.callApis(films_api_url, series_api_url);       
 
         }
 
@@ -91,11 +106,14 @@ export default {
                   //console.log(response);
                   this.films = response.data.results;
                   //console.log(this.films);
-                  
+                  this.films.forEach(film => {
+                    film.cover_path = "https://image.tmdb.org/t/p/" + "w300" + film.backdrop_path;
+                    film.vote_stars = Math.ceil(film.vote_average/2);       
+                  });                  
               })
               .catch((error) => {
                   console.error();
-                  this.error = `Sorry, there is a problem! ${error}`;
+                  this.errorsArray.push(error);
               });
 
           // Lista di serie tv
@@ -104,13 +122,16 @@ export default {
               .then((response) => {
                   //console.log(response);
                   this.series = response.data.results;
-                  //console.log(this.films);
-                  
+                  //console.log(this.series);
+                  this.series.forEach(serie => {
+                    serie.cover_path = "https://image.tmdb.org/t/p/" + "w300" + serie.backdrop_path;
+                    serie.vote_stars = Math.ceil(serie.vote_average/2);       
+                  }); 
               })
               .catch((error) => {
                   console.error();
-                  this.error = `Sorry, there is a problem! ${error}`;
-              });
+                  this.errorsArray.push(error);
+          });
       },
   }
 
