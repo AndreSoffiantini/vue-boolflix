@@ -9,6 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faMagnifyingGlass, fasStar, farStar)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+/* Bootstrap */
+const bootstrap = require('bootstrap')
+Vue.use(bootstrap)
+
 /* Lang Flags */
 import LangFlag from 'vue-lang-code-flags';
 Vue.component('lang-flag', LangFlag);
