@@ -8,7 +8,7 @@
         <h1>BOOLFIX</h1>
 
         
-        <form @submit.prevent="filterFilms">
+        <form @submit.prevent="searchFilms">
           <input 
               type="search"
               placeholder="Search films"
@@ -35,7 +35,10 @@
         
         <ul>
 
-          <li v-for="film in filtered_films" :key="film.id">{{film.title}} / {{film.original_title}} / {{film.original_language}} / {{film.vote_average}}</li>
+          <li><h2>FILMS</h2></li>
+          <li v-for="film in films" :key="film.id">{{film.title}} / {{film.original_title}} / {{film.vote_average}} / <lang-flag :iso="film.original_language" /> </li>
+          <li><h2>TV SERIES</h2></li>
+          <li v-for="serie in series" :key="serie.id">{{serie.name}} / {{serie.original_name}} / {{serie.vote_average}} / <lang-flag :iso="serie.original_language" /> </li>
 
         </ul>
 
@@ -58,43 +61,59 @@ export default {
   },
   data() {
     return {
-      api_url: "https://api.themoviedb.org/3/search/movie?api_key=041d7f18aab0e82c43022e918273c2dd&query=ritorno+al+futuro",
       films: null,
-      filtered_films: null,
+      series: null,
       searchText: null,
       error: null
     }   
   },
   methods: {
 
-      filterFilms() {
-
-        //console.log(this.searchText);
+      searchFilms() {
 
         if(this.searchText) {
-          this.filtered_films = this.films.filter(film => film.title.toLowerCase().includes(this.searchText.toLowerCase()));
-          //console.log(this.filtered_films);
-        }       
+
+          let films_api_url = "https://api.themoviedb.org/3/search/movie?api_key=041d7f18aab0e82c43022e918273c2dd&query=" + this.searchText;
+          let series_api_url = "https://api.themoviedb.org/3/search/tv?api_key=041d7f18aab0e82c43022e918273c2dd&query=" + this.searchText;
+
+          this.callApis(films_api_url, series_api_url);
+
+        }
 
       },
 
-      callApi() {
+      callApis(film_url, series_url) {   
+          
+          // Lista di film
           axios
-              .get(this.api_url)
+              .get(film_url)
               .then((response) => {
                   //console.log(response);
                   this.films = response.data.results;
                   //console.log(this.films);
+                  
+              })
+              .catch((error) => {
+                  console.error();
+                  this.error = `Sorry, there is a problem! ${error}`;
+              });
+
+          // Lista di serie tv
+          axios
+              .get(series_url)
+              .then((response) => {
+                  //console.log(response);
+                  this.series = response.data.results;
+                  //console.log(this.films);
+                  
               })
               .catch((error) => {
                   console.error();
                   this.error = `Sorry, there is a problem! ${error}`;
               });
       },
-  },
-  mounted() {
-      this.callApi();
   }
+
 }
 </script>
 
@@ -114,15 +133,16 @@ header {
 
 main {
         background-color: rgb(80, 80, 80);
-        height: 92vh;
+        min-height: 92vh;
 }
 
 form>* {
-        padding: 0.2rem;
-    }
+  padding: 0.2rem;
+}
 
-    input {
-        margin: 0 0.5rem;
-    }
+input {
+  margin: 0 0.5rem;
+}
+
 
 </style>
