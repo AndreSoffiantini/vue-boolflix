@@ -1,12 +1,16 @@
 <template>
   
-    <h2 class="text-center py-2">{{title}}</h2>
+    <div class="movies_section">
 
-    <div class="row gy-4">
+        <h2 class="text-center py-2">{{title}}</h2>
 
-        <div class="col-3" v-for="film in films" :key="film.id">
+        <div class="row gy-4">
 
-            <MovieCard :movie ='film'/>
+            <div class="col-3" v-for="movie in movies" :key="movie.id">
+
+                <MovieCard :movie ='movie'/>
+
+            </div>
 
         </div>
 
@@ -23,7 +27,7 @@ export default {
     name:'MoviesSectionComponent',
     props: {
         title: String,
-        films: Array
+        movies: Array
     },
     components: {
         MovieCard

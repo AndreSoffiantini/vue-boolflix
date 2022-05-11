@@ -1,8 +1,8 @@
 <template>
   
-    <div class="card">
+    <div class="movie_card">
 
-        <img class="cover_img img-fluid" :src="movie.cover_path" :alt="movie.original_title"> 
+        <img class="cover_img h-100" :src="movie.cover_path" :alt="movie.original_title"> 
 
         <div class="info p-2">
 
@@ -48,11 +48,11 @@ export default {
 
 <style lang="scss">
 
-    .card {
+    .movie_card {
         position: relative;
         cursor: pointer;
         height: 420px;
-        overflow-y: hidden;
+        overflow: hidden;
         font-size: 0.8rem;
 
         &:hover img {
