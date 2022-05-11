@@ -1,29 +1,31 @@
 <template>
   
-    <form @submit.prevent="$emit('formSubmit')">
-        <input 
-            type="search"
-            placeholder="Search films"
-            :value="searchText"
-            @input="$emit('input', $event.target.value)"
-            @keyup="$emit('formSubmit', searchText)" 
-        />
+        <form @submit.prevent="$emit('formSubmit')">
+            <input 
+                type="search"
+                placeholder="Search films"
+                :value="searchText"
+                @input="$emit('input', $event.target.value)"
+            />
 
-        <button
-            type="submit"
-            :disabled="searchText < 1"
-        >
-        <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-        Search
-        </button>
-    </form>
+            <button
+              type="submit"
+              :disabled="searchText < 1"
+            >
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+            Search
+             </button>
+          
+        </form>
 
 </template>
 
 <script>
 export default {
-    name: 'SearchboxComponent'
-
+    name: 'SearchboxComponent',
+    props: {
+        searchText: String
+    }
 }
 </script>
 

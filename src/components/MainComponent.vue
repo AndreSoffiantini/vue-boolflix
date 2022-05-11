@@ -2,15 +2,37 @@
   
     <main>
         
-        <ul></ul>
+        <div class="container">
+
+          <MoviesSection v-for="(result,index) in results" :key="'result' + index" :title='result.title' :movies='result.result'/>        
+
+        </div>
 
     </main>
 
 </template>
 
 <script>
-export default {
+import state from "@/state.js";
+import MoviesSection from '@/components/MoviesSectionComponent.vue';
 
+export default {
+    name: 'MainComponent',
+    components: {
+        MoviesSection
+    },
+    /* data() {
+        return {
+            results: []
+        }
+    }, */
+    computed: {
+        results() {
+
+            return state.results
+
+        }
+    }
 }
 </script>
 
@@ -18,7 +40,7 @@ export default {
 
     main {
         background-color: rgb(80, 80, 80);
-        height: 92vh;
+        min-height: 90vh;
     }
 
 </style>
