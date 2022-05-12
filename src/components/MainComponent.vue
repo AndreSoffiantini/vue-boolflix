@@ -4,7 +4,7 @@
         
         <div class="container">
 
-          <MoviesSection v-for="(result,index) in results" :key="'result' + index" :title='result.title' :movies='result.result'/>        
+          <MoviesSection v-for="(result,index) in results[0]" :key="'result' + index" :title='result.title' :movies='result.result' :casts='results[1]'/>        
 
         </div>
 
@@ -21,15 +21,10 @@ export default {
     components: {
         MoviesSection
     },
-    /* data() {
-        return {
-            results: []
-        }
-    }, */
     computed: {
         results() {
 
-            return state.results
+            return [state.query_results, state.casts_results]
 
         }
     }

@@ -1,8 +1,8 @@
 <template>
   
-    <div class="movie_card">
+    <div class="movie_card d-flex">
 
-        <img class="cover_img h-100" :src="movie.cover_path" :alt="movie.original_title"> 
+        <img class="cover_img" :src="movie.poster_path ? movie.cover_path : placeholder_image" :alt="movie.original_title"> 
 
         <div class="info p-2">
 
@@ -24,6 +24,10 @@
                 <strong>Lingua originale: </strong> <lang-flag :iso="movie.original_language" />
             </div>
 
+            <!-- <div class="cast">
+                <strong>Cast: </strong> <span v-for="(actor, index) in cast" :key="actor.name" v-show="index < 5">{{actor.name}} </span>
+            </div> -->
+
             <div class="overview">
                 <strong>Overview: </strong>
                 <p>{{movie.overview}}</p> 
@@ -41,6 +45,11 @@ export default {
     name: 'CardComponent',
     props: {
         movie: Object
+    },
+    data() {
+        return {
+            placeholder_image: 'https://www.altavod.com/assets/images/poster-placeholder.png'
+        }
     }
 
 }
@@ -54,6 +63,7 @@ export default {
         height: 420px;
         overflow: hidden;
         font-size: 0.8rem;
+        max-width: 300px;
 
         &:hover img {
             opacity: 0.7;

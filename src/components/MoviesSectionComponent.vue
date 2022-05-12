@@ -1,14 +1,14 @@
 <template>
   
-    <div class="movies_section">
+    <div class="movies_section py-3">
 
         <h2 class="text-center py-2">{{title}}</h2>
 
         <div class="row gy-4">
 
-            <div class="col-3" v-for="movie in movies" :key="movie.id">
+            <div class="col d-flex flex-direction-column justify-content-center" v-for="(movie,index) in movies" :key="movie.id">
 
-                <MovieCard :movie ='movie'/>
+                <MovieCard :movie ='movie' :cast='casts[index]'/>
 
             </div>
 
@@ -27,7 +27,8 @@ export default {
     name:'MoviesSectionComponent',
     props: {
         title: String,
-        movies: Array
+        movies: Array,
+        casts: Array
     },
     components: {
         MovieCard
@@ -39,12 +40,7 @@ export default {
 <style lang="scss">
 
         h2 {
-          margin: auto;
-        }
-
-        .col {
-          display: flex;
-          align-items: center;
+          margin: 1rem auto;
         }
 
 </style>
